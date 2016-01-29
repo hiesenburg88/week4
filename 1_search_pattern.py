@@ -12,6 +12,9 @@ stations = result['stationBeanList']
 young_latitude = 41.793414
 young_longitude = -87.600915
 
+winning_distance = 10000000
+
+
 for station in stations:
   station_latitude = float(station['latitude'])
   station_longitude = float(station['longitude'])
@@ -20,12 +23,14 @@ for station in stations:
   longitude_delta = math.fabs(station_longitude - young_longitude)
   distance_to_this_station = math.hypot(latitude_delta, longitude_delta)
 
-  print("The distance from Young to", station['stationName'], ": ", distance_to_this_station)
 
-  # now what?
+  if distance_to_this_station < winning_distance:
+    winning_distance = distance_to_this_station
+    winning_station = station
+    print("The distance from Young to", station['stationName'], ": ", distance_to_this_station)
 
 
 
 print()
-print("The nearest station is:", "(no idea)")
-print("There are", "(no idea)", "bikes there right now!")
+print("The nearest station is:", winning_station["stationName"])
+print("There are", winning_station["availableBikes"], "bikes there right now!")
